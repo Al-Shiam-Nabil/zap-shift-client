@@ -13,13 +13,12 @@ const RegisterPage = () => {
     formState: { errors },
   } = useForm();
 
-   const formData = new FormData();
   const handleRegister = (data) => {
     console.log(data.photo[0]);
     const imageFile = data.photo[0];
-console.log(imageFile)
+    console.log(imageFile);
     // store photo in form data
-   
+    const formData = new FormData();
     formData.append("image", imageFile);
 
     console.log(formData);
