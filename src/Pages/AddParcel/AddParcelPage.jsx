@@ -58,6 +58,8 @@ const AddParcelPage = () => {
       }
     }
 
+    data.cost=cost
+
     Swal.fire({
       title: "Are you sure?",
       text: `You want to send a parcel for ${cost} BDT.`,
