@@ -1,11 +1,15 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAuthHook from "../../../Hooks/useAuthHook";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import GoogleSignin from "../GoogleSignin";
+import axios from "axios";
 
 const RegisterPage = () => {
-  const { registerUser } = useAuthHook();
+  const { registerUser, updateProfileUser } = useAuthHook();
+  const location = useLocation();
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -16,20 +20,58 @@ const RegisterPage = () => {
   const handleRegister = (data) => {
     console.log(data.photo[0]);
     const imageFile = data.photo[0];
-    console.log(imageFile);
+
     // store photo in form data
-    const formData = new FormData();
-    formData.append("image", imageFile);
 
-    console.log(formData);
+    //     if(imageFile){
+    //  const formData = new FormData();
+    //     formData.append("image", imageFile,"nabil");
+    //     console.log(formData)
+    //     }
 
-    // registerUser(data.email, data.password)
-    //   .then((result) => {
-    //     console.log(result.user);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    // const formData=new FormData()
+    // formData.append('image',imageFile)
+    // for (let [a,b] of formData.entries()) {
+    //   console.log(a, b);
+    // }
+
+    //  console.log(formData)
+
+    // console.log(formData);
+
+    registerUser(data.email, data.password)
+      .then((result) => {
+        console.log(result.user);
+
+        const formData = new FormData();
+        formData.append("image", imageFile);
+
+        const host_uri = `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_IMAGE_HOST_KEY
+        }`;
+
+        axios.post(host_uri, formData).then((res) => {
+          console.log(res.data.data.url);
+
+          const updatedInfo = {
+            displayName: data.name,
+            photoURL: res.data.data.url,
+          };
+
+          updateProfileUser(updatedInfo)
+            .then(() => {
+              console.log("profile updated");
+              navigate(location?.state || "/");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        });
+      })
+
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -55,6 +97,7 @@ const RegisterPage = () => {
           <label className="label">Photo</label>
           <input
             type="file"
+            accept="image/*"
             className="file-input"
             {...register("photo", { required: true })}
             placeholder="Photo"
@@ -109,7 +152,11 @@ const RegisterPage = () => {
 
         <p className="text-center">
           Already have an account? Please{" "}
-          <Link to="/login" className="text-blue-500 hover:underline">
+          <Link
+            state={location?.state}
+            to="/login"
+            className="text-blue-500 hover:underline"
+          >
             Log in
           </Link>
         </p>

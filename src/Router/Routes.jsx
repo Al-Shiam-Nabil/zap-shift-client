@@ -8,22 +8,31 @@ import { Component } from "react";
 import RegisterPage from "../Pages/Auth/Register/RegisterPage";
 import PrivateRoutes from "./PrivateRoutes";
 import BeARider from "../Pages/BeARider/BeARider";
+import AddParcelPage from "../Pages/AddParcel/AddParcelPage";
+import DashboardLayout from "../Layouts/DashboardLayout";
+import MyParcelsPage from "../Pages/Dashboard/MyParcelsPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
+      hydrateFallbackElement: <h3>Loading...</h3>,
     children: [
       { index: true, Component: HomePage },
       {
         path: "coverage",
         Component: Covereges,
         loader: () => fetch("/serviceCenters.json").then((res) => res.json()),
-        hydrateFallbackElement: <h3>Loading...</h3>,
+      
       },
       {
-        path:'be-a-rider',
+        path:'rider',
         element:<PrivateRoutes><BeARider></BeARider></PrivateRoutes>
+      },
+      {
+        path:'add-parcel',
+        element:<PrivateRoutes><AddParcelPage></AddParcelPage></PrivateRoutes>,
+        loader:()=>fetch('/serviceCenters.json').then(res=>res.json())
       }
     ],
   },
@@ -41,4 +50,14 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path:'dashboard',
+    element:<PrivateRoutes><DashboardLayout></DashboardLayout></PrivateRoutes>,
+    children:[
+      {
+        path:'my-parcels',
+        Component:MyParcelsPage
+      }
+    ]
+  }
 ]);

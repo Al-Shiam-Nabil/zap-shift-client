@@ -4,9 +4,11 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../Firebase/Firebase.config";
 
@@ -46,6 +48,14 @@ const AuthProvider = ({ children }) => {
     };
   }, []);
 
+  const updateProfileUser = (updatedInfo) => {
+    return updateProfile(auth.currentUser, updatedInfo);
+  };
+
+  const forgetPassword=(email)=>{
+    return sendPasswordResetEmail(auth,email)
+  }
+
   const authInfo = {
     registerUser,
     signInUser,
@@ -53,6 +63,8 @@ const AuthProvider = ({ children }) => {
     logOutUser,
     loading,
     user,
+    updateProfileUser,
+    forgetPassword
   };
   return <AuthContext value={authInfo}>{children}</AuthContext>;
 };

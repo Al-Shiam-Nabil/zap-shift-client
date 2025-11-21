@@ -22,7 +22,21 @@ const Navbar = () => {
       <li>
         <NavLink to="/coverage">Coverage</NavLink>
       </li>
+      <li>
+        <NavLink to="/add-parcel">Add Parcel</NavLink>
+      </li>
+
+   {
+      user && <>
+      <li>
+        <NavLink to="/dashboard/my-parcels">My Parcels</NavLink>
+      </li>
+      </>
+    }
+
     </>
+
+ 
   );
 
   return (
@@ -69,7 +83,7 @@ const Navbar = () => {
           <Link className="btn">Log in</Link>
         )}
 
-        <Link to="/be-a-rider" className="btn btn-primary text-black ml-3">Be A Rider</Link>
+        <Link to="/rider" className="btn btn-primary text-black ml-3">Be A Rider</Link>
       </div>
     </div>
   );
