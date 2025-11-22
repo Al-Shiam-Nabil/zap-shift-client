@@ -11,6 +11,9 @@ import BeARider from "../Pages/BeARider/BeARider";
 import AddParcelPage from "../Pages/AddParcel/AddParcelPage";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import MyParcelsPage from "../Pages/Dashboard/MyParcelsPage";
+import PaymentPage from "../Pages/Payment/PaymentPage";
+import PaymentSuccessPage from "../Pages/Dashboard/payment/PaymentSuccessPage";
+import PaymentCancelPage from "../Pages/Dashboard/payment/PaymentCancelPage";
 
 export const router = createBrowserRouter([
   {
@@ -57,6 +60,18 @@ export const router = createBrowserRouter([
       {
         path:'my-parcels',
         Component:MyParcelsPage
+      },
+      {
+        path:"payment/:parcelId",
+        Component:PaymentPage
+      },
+      {
+        path:'payment-success',
+        Component:PaymentSuccessPage
+      },
+      {
+        path:'payment-cancel',
+        Component:PaymentCancelPage
       }
     ]
   }
