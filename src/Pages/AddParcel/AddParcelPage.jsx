@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSequre from "../../Hooks/useAxiosSequre";
 import useAuthHook from "../../Hooks/useAuthHook";
@@ -13,8 +13,10 @@ const AddParcelPage = () => {
     // formState: { errors },
   } = useForm();
 
-  const sequreAxios=useAxiosSequre()
-  const {user}=useAuthHook()
+  const sequreAxios = useAxiosSequre();
+  const { user } = useAuthHook();
+
+  const navigate = useNavigate();
 
   // const senderRegion = watch("senderRegion");
 
@@ -58,7 +60,7 @@ const AddParcelPage = () => {
       }
     }
 
-    data.cost=cost
+    data.cost = cost;
 
     Swal.fire({
       title: "Are you sure?",
@@ -70,16 +72,19 @@ const AddParcelPage = () => {
       confirmButtonText: "Yes, accepted!",
     }).then((result) => {
       if (result.isConfirmed) {
+        sequreAxios.post("/parcels", data).then((result) => {
+          console.log(result.data);
 
-        sequreAxios.post('/parcels',data).then(result=>{
-          console.log(result.data)
-        })
-
-
-        Swal.fire({
-          title: "Accpected",
-          text: "Your parcel has been accpected",
-          icon: "success",
+          if (result.data.insertedId) {
+            navigate("/dashboard/my-parcels");
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Accpected.Please pay now",
+              showConfirmButton: false,
+              timer: 2500,
+            });
+          }
         });
       }
     });
@@ -171,7 +176,7 @@ const AddParcelPage = () => {
               {...register("senderEmail")}
               className="input w-full"
               placeholder="Sender Email"
-               defaultValue={user?.email}
+              defaultValue={user?.email}
             />
 
             {/* sender region */}

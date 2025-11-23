@@ -69,7 +69,7 @@ const MyParcelsPage = () => {
               <td>{parcel?.cost}</td>
 
               <td>
-                {parcel?.payment === "paid" ? (
+                {parcel?.paymentStatus === "paid" ? (
                   <span className="text-green-500">Paid</span>
                 ) : (
                   <Link
