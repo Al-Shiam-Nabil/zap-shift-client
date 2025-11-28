@@ -1,9 +1,11 @@
 import React from "react";
 import useAuthHook from "../../Hooks/useAuthHook";
 import { useLocation, useNavigate } from "react-router";
+import useAxiosSequre from "../../Hooks/useAxiosSequre";
 
 const GoogleSignin = () => {
   const { googleLogin } = useAuthHook();
+  const sequreAxios=useAxiosSequre()
   const location=useLocation()
   const navigate=useNavigate()
   
@@ -12,6 +14,19 @@ const GoogleSignin = () => {
       .then((result) => {
         console.log(result.user);
         navigate(location?.state || '/')
+
+        const userInfo = {
+            displayName: result.user.displayName,
+            email: result.user.email,
+            photoURL: result.user.photoURL,
+          };
+
+          sequreAxios.post("/users", userInfo).then((result) => {
+            if (result.data.insertedId) {
+              console.log("user saved to data base");
+            }
+          });
+
       })
       .catch((error) => {
         console.log(error);

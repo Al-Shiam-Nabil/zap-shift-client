@@ -4,9 +4,11 @@ import useAuthHook from "../../../Hooks/useAuthHook";
 import { Link, useLocation, useNavigate } from "react-router";
 import GoogleSignin from "../GoogleSignin";
 import axios from "axios";
+import useAxiosSequre from "../../../Hooks/useAxiosSequre";
 
 const RegisterPage = () => {
   const { registerUser, updateProfileUser } = useAuthHook();
+  const sequreAxios = useAxiosSequre();
   const location = useLocation();
 
   const navigate = useNavigate();
@@ -18,31 +20,10 @@ const RegisterPage = () => {
   } = useForm();
 
   const handleRegister = (data) => {
-    console.log(data.photo[0]);
     const imageFile = data.photo[0];
 
-    // store photo in form data
-
-    //     if(imageFile){
-    //  const formData = new FormData();
-    //     formData.append("image", imageFile,"nabil");
-    //     console.log(formData)
-    //     }
-
-    // const formData=new FormData()
-    // formData.append('image',imageFile)
-    // for (let [a,b] of formData.entries()) {
-    //   console.log(a, b);
-    // }
-
-    //  console.log(formData)
-
-    // console.log(formData);
-
     registerUser(data.email, data.password)
-      .then((result) => {
-        console.log(result.user);
-
+      .then(() => {
         const formData = new FormData();
         formData.append("image", imageFile);
 
@@ -52,6 +33,18 @@ const RegisterPage = () => {
 
         axios.post(host_uri, formData).then((res) => {
           console.log(res.data.data.url);
+
+          const userInfo = {
+            displayName: data.name,
+            email: data.email,
+            photoURL: res.data.data.url,
+          };
+
+          sequreAxios.post("/users", userInfo).then((result) => {
+            if (result.data.insertedId) {
+              console.log("user saved to data base");
+            }
+          });
 
           const updatedInfo = {
             displayName: data.name,
@@ -147,7 +140,7 @@ const RegisterPage = () => {
             </p>
           )}
 
-          <button className="btn btn-neutral mt-4">Login</button>
+          <button className="btn btn-neutral mt-4">Register</button>
         </fieldset>
 
         <p className="text-center">

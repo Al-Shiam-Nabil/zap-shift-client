@@ -14,6 +14,7 @@ import MyParcelsPage from "../Pages/Dashboard/MyParcelsPage";
 import PaymentPage from "../Pages/Payment/PaymentPage";
 import PaymentSuccessPage from "../Pages/Dashboard/payment/PaymentSuccessPage";
 import PaymentCancelPage from "../Pages/Dashboard/payment/PaymentCancelPage";
+import PaymentHistoryPage from "../Pages/Dashboard/payment/PaymentHistoryPage";
 
 export const router = createBrowserRouter([
   {
@@ -30,7 +31,8 @@ export const router = createBrowserRouter([
       },
       {
         path:'rider',
-        element:<PrivateRoutes><BeARider></BeARider></PrivateRoutes>
+        element:<PrivateRoutes><BeARider></BeARider></PrivateRoutes>,
+        loader:()=>fetch('/serviceCenters.json').then(res=>res.json())
       },
       {
         path:'add-parcel',
@@ -72,6 +74,10 @@ export const router = createBrowserRouter([
       {
         path:'payment-cancel',
         Component:PaymentCancelPage
+      },
+      {
+        path:"payment-history",
+        Component:PaymentHistoryPage
       }
     ]
   }
