@@ -8,7 +8,7 @@ import useRoleHook from "../Hooks/useRoleHook";
 
 const DashboardLayout = () => {
   const { role } = useRoleHook();
-  console.log(role)
+
   return (
     <div className="drawer lg:drawer-open w-7xl mx-auto">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -106,32 +106,40 @@ const DashboardLayout = () => {
               </NavLink>
             </li>
 
-            {/* approve rider */}
+            {role === "admin" && (
+              <>
+                {/* approve rider */}
 
-            <li>
-              <NavLink
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Approve Rider"
-                to="/dashboard/approve-rider"
-              >
-                <RiMotorbikeFill className="text-xl"></RiMotorbikeFill>
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Approve Rider"
+                    to="/dashboard/approve-rider"
+                  >
+                    <RiMotorbikeFill className="text-xl"></RiMotorbikeFill>
 
-                <span className="is-drawer-close:hidden">Approve Rider</span>
-              </NavLink>
-            </li>
+                    <span className="is-drawer-close:hidden">
+                      Approve Rider
+                    </span>
+                  </NavLink>
+                </li>
 
-            {/* user management */}
-            <li>
-              <NavLink
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Users Management"
-                to="/dashboard/users-management"
-              >
-                <FaUserGroup className="text-xl"></FaUserGroup>
+                {/* user management */}
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Users Management"
+                    to="/dashboard/users-management"
+                  >
+                    <FaUserGroup className="text-xl"></FaUserGroup>
 
-                <span className="is-drawer-close:hidden">Users management</span>
-              </NavLink>
-            </li>
+                    <span className="is-drawer-close:hidden">
+                      Users management
+                    </span>
+                  </NavLink>
+                </li>
+              </>
+            )}
 
             {/* List item */}
             <li>

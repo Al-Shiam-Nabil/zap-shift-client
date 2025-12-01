@@ -17,30 +17,38 @@ import PaymentCancelPage from "../Pages/Dashboard/payment/PaymentCancelPage";
 import PaymentHistoryPage from "../Pages/Dashboard/payment/PaymentHistoryPage";
 import ApproveRider from "../Pages/Dashboard/Riider/ApproveRider";
 import UsersManagementPage from "../Pages/Dashboard/UsersManagement/UsersManagementPage";
+import AdminRoutes from "./AdminRoutes";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
-      hydrateFallbackElement: <h3>Loading...</h3>,
+    hydrateFallbackElement: <h3>Loading...</h3>,
     children: [
       { index: true, Component: HomePage },
       {
         path: "coverage",
         Component: Covereges,
         loader: () => fetch("/serviceCenters.json").then((res) => res.json()),
-      
       },
       {
-        path:'rider',
-        element:<PrivateRoutes><BeARider></BeARider></PrivateRoutes>,
-        loader:()=>fetch('/serviceCenters.json').then(res=>res.json())
+        path: "rider",
+        element: (
+          <PrivateRoutes>
+            <BeARider></BeARider>
+          </PrivateRoutes>
+        ),
+        loader: () => fetch("/serviceCenters.json").then((res) => res.json()),
       },
       {
-        path:'add-parcel',
-        element:<PrivateRoutes><AddParcelPage></AddParcelPage></PrivateRoutes>,
-        loader:()=>fetch('/serviceCenters.json').then(res=>res.json())
-      }
+        path: "add-parcel",
+        element: (
+          <PrivateRoutes>
+            <AddParcelPage></AddParcelPage>
+          </PrivateRoutes>
+        ),
+        loader: () => fetch("/serviceCenters.json").then((res) => res.json()),
+      },
     ],
   },
   {
@@ -58,35 +66,49 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path:'dashboard',
-    element:<PrivateRoutes><DashboardLayout></DashboardLayout></PrivateRoutes>,
-    children:[
+    path: "dashboard",
+    element: (
+      <PrivateRoutes>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoutes>
+    ),
+    children: [
       {
-        path:'my-parcels',
-        Component:MyParcelsPage
+        path: "my-parcels",
+        Component: MyParcelsPage,
       },
       {
-        path:"payment/:parcelId",
-        Component:PaymentPage
+        path: "payment/:parcelId",
+        Component: PaymentPage,
       },
       {
-        path:'payment-success',
-        Component:PaymentSuccessPage
+        path: "payment-success",
+        Component: PaymentSuccessPage,
       },
       {
-        path:'payment-cancel',
-        Component:PaymentCancelPage
+        path: "payment-cancel",
+        Component: PaymentCancelPage,
       },
       {
-        path:"payment-history",
-        Component:PaymentHistoryPage
-      },{
-        path:'approve-rider',
-        Component:ApproveRider
-      },{
-        path:"users-management",
-        Component:UsersManagementPage
-      }
-    ]
-  }
+        path: "payment-history",
+        Component: PaymentHistoryPage,
+      },
+      {
+        path: "approve-rider",
+        element: (
+          <AdminRoutes>
+            <ApproveRider></ApproveRider>
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "users-management",
+        element: (
+          <AdminRoutes>
+            <UsersManagementPage></UsersManagementPage>
+          </AdminRoutes>
+        ),
+      },
+    ],
+  },
 ]);
