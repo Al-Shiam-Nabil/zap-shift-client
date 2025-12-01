@@ -1,6 +1,8 @@
 import React from "react";
 import { CiDeliveryTruck } from "react-icons/ci";
+import { FaUserGroup } from "react-icons/fa6";
 import { MdOutlinePayment } from "react-icons/md";
+import { RiMotorbikeFill } from "react-icons/ri";
 import { Link, NavLink, Outlet } from "react-router";
 
 const DashboardLayout = () => {
@@ -75,7 +77,7 @@ const DashboardLayout = () => {
               </Link>
             </li>
 
-            {/* my links */}
+            {/* my parcels */}
             <li>
               <NavLink
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
@@ -98,6 +100,33 @@ const DashboardLayout = () => {
                <MdOutlinePayment className="text-xl"></MdOutlinePayment>
 
                 <span className="is-drawer-close:hidden">Payment History</span>
+              </NavLink>
+            </li>
+
+            {/* approve rider */}
+
+                 <li>
+              <NavLink
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Approve Rider"
+                to="/dashboard/approve-rider"
+              >
+               <RiMotorbikeFill className="text-xl"></RiMotorbikeFill>
+
+                <span className="is-drawer-close:hidden">Approve Rider</span>
+              </NavLink>
+            </li>
+
+            {/* user management */}
+                 <li>
+              <NavLink
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Users Management"
+                to="/dashboard/users-management"
+              >
+           <FaUserGroup className="text-xl"></FaUserGroup>
+
+                <span className="is-drawer-close:hidden">Users management</span>
               </NavLink>
             </li>
 

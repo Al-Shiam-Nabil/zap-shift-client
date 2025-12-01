@@ -8,8 +8,8 @@ const instance = axios.create({
 });
 
 const useAxiosSequre = () => {
-  const { user,logOutUser } = useAuthHook();
-  const navigate=useNavigate()
+  const { user, logOutUser } = useAuthHook();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const requestInterceptor = instance.interceptors.request.use((config) => {
@@ -24,10 +24,10 @@ const useAxiosSequre = () => {
       },
       (error) => {
         console.log(error.status);
-        if(error.status === 401 || error.status === 403){
-logOutUser().then(()=>{
-  navigate('/login')
-})
+        if (error.status === 401 || error.status === 403) {
+          logOutUser().then(() => {
+            navigate("/login");
+          });
         }
         return Promise.reject(error);
       }
@@ -37,7 +37,7 @@ logOutUser().then(()=>{
       axios.interceptors.request.eject(requestInterceptor);
       axios.interceptors.response.eject(responseInterceptor);
     };
-  }, [user,logOutUser,navigate]);
+  }, [user, logOutUser, navigate]);
 
   return instance;
 };
