@@ -4,8 +4,11 @@ import { FaUserGroup } from "react-icons/fa6";
 import { MdOutlinePayment } from "react-icons/md";
 import { RiMotorbikeFill } from "react-icons/ri";
 import { Link, NavLink, Outlet } from "react-router";
+import useRoleHook from "../Hooks/useRoleHook";
 
 const DashboardLayout = () => {
+  const { role } = useRoleHook();
+  console.log(role)
   return (
     <div className="drawer lg:drawer-open w-7xl mx-auto">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -90,14 +93,14 @@ const DashboardLayout = () => {
               </NavLink>
             </li>
 
-             {/* payment History */}
+            {/* payment History */}
             <li>
               <NavLink
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Payment History"
                 to="/dashboard/payment-history"
               >
-               <MdOutlinePayment className="text-xl"></MdOutlinePayment>
+                <MdOutlinePayment className="text-xl"></MdOutlinePayment>
 
                 <span className="is-drawer-close:hidden">Payment History</span>
               </NavLink>
@@ -105,26 +108,26 @@ const DashboardLayout = () => {
 
             {/* approve rider */}
 
-                 <li>
+            <li>
               <NavLink
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Approve Rider"
                 to="/dashboard/approve-rider"
               >
-               <RiMotorbikeFill className="text-xl"></RiMotorbikeFill>
+                <RiMotorbikeFill className="text-xl"></RiMotorbikeFill>
 
                 <span className="is-drawer-close:hidden">Approve Rider</span>
               </NavLink>
             </li>
 
             {/* user management */}
-                 <li>
+            <li>
               <NavLink
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Users Management"
                 to="/dashboard/users-management"
               >
-           <FaUserGroup className="text-xl"></FaUserGroup>
+                <FaUserGroup className="text-xl"></FaUserGroup>
 
                 <span className="is-drawer-close:hidden">Users management</span>
               </NavLink>
