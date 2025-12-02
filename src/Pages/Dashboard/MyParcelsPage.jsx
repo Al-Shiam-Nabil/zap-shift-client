@@ -81,7 +81,7 @@ const MyParcelsPage = () => {
                 )}
               </td>
 
-              <td>{parcel?.status}</td>
+              <td>{parcel?.deliveryStatus}</td>
               <td className="space-x-2">
                 {/* view */}
                 <button className="btn btn-square hover:btn-primary">

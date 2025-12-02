@@ -14,7 +14,6 @@ const useRoleHook = () => {
     },
   });
 
-  console.log(role);
   return { role, roleLoading };
 };
 

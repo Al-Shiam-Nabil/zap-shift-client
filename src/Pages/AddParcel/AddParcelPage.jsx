@@ -48,7 +48,7 @@ const AddParcelPage = () => {
       }
       if (data.parcelWeight <= 3) {
         cost = isSameDistrict ? 110 : 150;
-        console.log(cost);
+       
       } else {
         if (isSameDistrict) {
           const extraCost = (data.parcelWeight - 3) * 40;
@@ -73,7 +73,7 @@ const AddParcelPage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         sequreAxios.post("/parcels", data).then((result) => {
-          console.log(result.data);
+      
 
           if (result.data.insertedId) {
             navigate("/dashboard/my-parcels");
@@ -89,8 +89,7 @@ const AddParcelPage = () => {
       }
     });
 
-    console.log(cost);
-    console.log(data);
+    
   };
 
   return (

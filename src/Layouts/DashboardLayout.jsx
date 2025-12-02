@@ -2,7 +2,7 @@ import React from "react";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { FaUserGroup } from "react-icons/fa6";
 import { MdOutlinePayment } from "react-icons/md";
-import { RiMotorbikeFill } from "react-icons/ri";
+import { RiEBikeFill, RiMotorbikeFill } from "react-icons/ri";
 import { Link, NavLink, Outlet } from "react-router";
 import useRoleHook from "../Hooks/useRoleHook";
 
@@ -120,6 +120,21 @@ const DashboardLayout = () => {
 
                     <span className="is-drawer-close:hidden">
                       Approve Rider
+                    </span>
+                  </NavLink>
+                </li>
+
+                {/* assign riders */}
+                  <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Assign Rider"
+                    to="/dashboard/assign-rider"
+                  >
+                    <RiEBikeFill className="text-xl"></RiEBikeFill>
+
+                    <span className="is-drawer-close:hidden">
+                  Assign Rider
                     </span>
                   </NavLink>
                 </li>

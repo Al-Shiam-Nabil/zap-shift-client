@@ -1,62 +1,56 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import useAxiosSequre from "../../../Hooks/useAxiosSequre";
 import { MdAdminPanelSettings, MdRemoveModerator } from "react-icons/md";
-import useAuthHook from "../../../Hooks/useAuthHook";
+// import useAuthHook from "../../../Hooks/useAuthHook";
 import Swal from "sweetalert2";
 
 const UsersManagementPage = () => {
   const sequreAxios = useAxiosSequre();
-  const {user}=useAuthHook()
-  console.log(user)
+  //   const {user}=useAuthHook()
+  const [searchText, setSearchText] = useState("");
 
-  const {refetch, data: users = [] } = useQuery({
-    queryKey: ["users"],
+  const { refetch, data: users = [] } = useQuery({
+    queryKey: ["users",searchText],
     queryFn: async () => {
-      const data = await sequreAxios.get("/users");
+      const data = await sequreAxios.get(`/users/?search=${searchText}`);
       return data?.data;
     },
   });
 
-  const handleAddAdmin=(user)=>{
-    const info={role:'admin'}
-    sequreAxios.patch(`/users/${user?._id}`,info).then(data=>
-    {
-console.log(data.data)
-        if(data?.data?.modifiedCount){
-            refetch()
-               Swal.fire({
-                         position: "top-end",
-                         icon: "success",
-                         title: `You successfully set as admin ${user?.displayName}`,
-                         showConfirmButton: false,
-                         timer: 2000
-                       }); 
-        }
-    }
-        
-    )
-  }
+  const handleAddAdmin = (user) => {
+    const info = { role: "admin" };
+    sequreAxios.patch(`/users/${user?._id}`, info).then((data) => {
+      console.log(data.data);
+      if (data?.data?.modifiedCount) {
+        refetch();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `You successfully set as admin ${user?.displayName}`,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+    });
+  };
 
-  const handleRemoveAdmin=(user)=>{
-     const info={role:'user'}
-    sequreAxios.patch(`/users/${user?._id}`,info).then(data=>
-    {
-console.log(data.data)
-        if(data?.data?.modifiedCount){
-            refetch()
-               Swal.fire({
-                         position: "top-end",
-                         icon: "success",
-                         title: `You successfully removed as admin ${user?.displayName}`,
-                         showConfirmButton: false,
-                         timer: 2000
-                       }); 
-        }
-    }
-        
-    )
-  }
+  const handleRemoveAdmin = (user) => {
+    const info = { role: "user" };
+    sequreAxios.patch(`/users/${user?._id}`, info).then((data) => {
+      console.log(data.data);
+      if (data?.data?.modifiedCount) {
+        refetch();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `You successfully removed as admin ${user?.displayName}`,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+    });
+  };
 
   console.log(users);
 
@@ -72,6 +66,33 @@ console.log(data.data)
   return (
     <div>
       <h2>All users</h2>
+
+      <label className="input">
+        <svg
+          className="h-[1em] opacity-50"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <g
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            strokeWidth="2.5"
+            fill="none"
+            stroke="currentColor"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </g>
+        </svg>
+        <input
+          onChange={(e) => setSearchText(e.target.value)}
+          type="search"
+          required
+          placeholder="Search"
+        />
+      </label>
+
+      <div>search text : {searchText}</div>
 
       <div className="overflow-x-auto">
         <table className="table">
@@ -110,11 +131,17 @@ console.log(data.data)
                 <td>{user?.role}</td>
                 <td>
                   {user?.role === "admin" ? (
-                    <button onClick={()=>handleRemoveAdmin(user)}  className="btn text-xl bg-red-500">
+                    <button
+                      onClick={() => handleRemoveAdmin(user)}
+                      className="btn text-xl bg-red-500"
+                    >
                       <MdRemoveModerator></MdRemoveModerator>
                     </button>
                   ) : (
-                    <button onClick={()=>handleAddAdmin(user)} className="btn text-xl bg-green-500">
+                    <button
+                      onClick={() => handleAddAdmin(user)}
+                      className="btn text-xl bg-green-500"
+                    >
                       <MdAdminPanelSettings />
                     </button>
                   )}

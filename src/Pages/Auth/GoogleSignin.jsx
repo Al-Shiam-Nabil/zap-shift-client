@@ -12,7 +12,7 @@ const GoogleSignin = () => {
   const handleGoogleLogin = () => {
     googleLogin()
       .then((result) => {
-        console.log(result.user);
+     
         navigate(location?.state || '/')
 
         const userInfo = {
